@@ -40,7 +40,7 @@ type alias Model =
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model Time.utc (Time.millisToPosix 0) (pi / 2) (pi / 2) (pi / 2)
-    , Cmd.batch [ Task.perform AdjustTimeZone Time.here ]
+    , Task.perform AdjustTimeZone Time.here
     )
 
 
@@ -93,9 +93,9 @@ update msg model =
         AdjustTimeZone newZone ->
             ( { model
                 | zone = newZone
-                , secondsAngle = model.secondsAngle - toFloat (Time.toSecond newZone model.time) * 1
-                , minutesAngle = model.hoursAngle - (2 * pi / 60) * toFloat (Time.toMinute newZone model.time)
-                , hoursAngle = model.hoursAngle - toFloat (Time.toHour newZone model.time) * (2 * pi / 12)
+                , secondsAngle = model.secondsAngle - toFloat (Time.toSecond model.zone model.time) * 2 * pi / 60
+                , minutesAngle = model.minutesAngle - toFloat (Time.toSecond model.zone model.time) * 2 * pi / 60
+                , hoursAngle = model.hoursAngle - toFloat (modBy 12 (Time.toHour model.zone model.time)) * (2 * pi / 12)
               }
             , Cmd.none
             )
