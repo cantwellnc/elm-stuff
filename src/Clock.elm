@@ -75,7 +75,7 @@ update msg model =
             ( { model
                 | time = newTime
                 , minutesAngle = model.minutesAngle + (2 * pi / 60)
-                , secondsAngle = model.secondsAngle + (2 * pi / 360)
+                , secondsAngle = model.secondsAngle + (2 * pi / 60)
               }
             , Cmd.none
             )
@@ -83,9 +83,9 @@ update msg model =
         HourTick newTime ->
             ( { model
                 | time = newTime
-                , hoursAngle = model.hoursAngle - (2 * pi / 12)
-                , minutesAngle = model.minutesAngle - (2 * pi / 60)
-                , secondsAngle = model.secondsAngle - (2 * pi / 360)
+                , hoursAngle = model.hoursAngle + (2 * pi / 12)
+                , minutesAngle = model.minutesAngle + (2 * pi / 60)
+                , secondsAngle = model.secondsAngle + (2 * pi / 60)
               }
             , Cmd.none
             )
